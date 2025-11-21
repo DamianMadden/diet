@@ -1,37 +1,37 @@
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Alert, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router'
+import { useState } from 'react'
+import { Alert, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 
-import { useSession } from '../AuthContext';
-import { Button, Text } from '../components';
+import { useSession } from '../AuthContext'
+import { Button, Text } from '../components'
 
 const SignupScreen = () => {
-  const router = useRouter();
-  const session = useSession();
+  const router = useRouter()
+  const session = useSession()
 
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const handleSignup = async () => {
     // Basic validation
     if (!username || !email || !password || !confirmPassword) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return;
+      Alert.alert('Error', 'Please fill in all fields')
+      return
     }
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
-      return;
+      Alert.alert('Error', 'Passwords do not match')
+      return
     }
 
     try {
       // TODO: Replace with sign up logic
-      session.signIn();
+      session.signIn()
     } catch (error: any) {
-      Alert.alert('Signup Failed', error.message || 'Something went wrong');
+      Alert.alert('Signup Failed', error.message || 'Something went wrong')
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -92,8 +92,8 @@ const SignupScreen = () => {
         <Text style={styles.linkText}>Already have an account? Log in</Text>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -127,6 +127,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
   },
-});
+})
 
-export default SignupScreen;
+export default SignupScreen

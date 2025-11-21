@@ -1,18 +1,18 @@
-import { Picker } from '@react-native-picker/picker';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker'
+import { useRouter } from 'expo-router'
+import { useState } from 'react'
+import { ScrollView, StyleSheet, TextInput, View } from 'react-native'
 
-import { Button, Text } from '../../components';
+import { Button, Text } from '../../components'
 
 const ProfileScreen = () => {
-  const router = useRouter();
-  const [weight, setWeight] = useState('');
-  const [height, setHeight] = useState('');
-  const [gender, setGender] = useState('');
-  const [age, setAge] = useState('');
-  const [activityLevel, setActivityLevel] = useState('');
-  const [goal, setGoal] = useState('');
+  const router = useRouter()
+  const [weight, setWeight] = useState('')
+  const [height, setHeight] = useState('')
+  const [gender, setGender] = useState('')
+  const [age, setAge] = useState('')
+  const [activityLevel, setActivityLevel] = useState('')
+  const [goal, setGoal] = useState('')
 
   return (
     <ScrollView style={styles.container}>
@@ -93,8 +93,8 @@ const ProfileScreen = () => {
         Go to Dashboard
       </Button>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -128,6 +128,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 50,
   },
-});
+})
 
-export default ProfileScreen;
+export default ProfileScreen

@@ -1,10 +1,10 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native'
 
-import { useSession } from '../../AuthContext';
-import { Button, Text } from '../../components';
+import { useSession } from '../../AuthContext'
+import { Button, Text } from '../../components'
 
 const DashboardScreen = () => {
-  const session = useSession();
+  const session = useSession()
 
   return (
     <View style={styles.container}>
@@ -13,8 +13,8 @@ const DashboardScreen = () => {
         Logout
       </Button>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-});
+})
 
-export default DashboardScreen;
+export default DashboardScreen

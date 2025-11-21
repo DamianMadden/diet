@@ -1,28 +1,28 @@
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Alert, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router'
+import { useState } from 'react'
+import { Alert, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 
-import { useSession } from '../AuthContext';
-import { Button, Text } from '../components';
+import { useSession } from '../AuthContext'
+import { Button, Text } from '../components'
 
 const LoginScreen = () => {
-  const router = useRouter();
-  const session = useSession();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter()
+  const session = useSession()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleLogin = async () => {
     try {
       if (email && password) {
         // TODO: Add backend interaction
-        session.signIn();
+        session.signIn()
       } else {
-        Alert.alert('Error', 'Please enter both email and password');
+        Alert.alert('Error', 'Please enter both email and password')
       }
     } catch (error: any) {
-      Alert.alert('Login Failed', error.message || 'Something went wrong');
+      Alert.alert('Login Failed', error.message || 'Something went wrong')
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -60,8 +60,8 @@ const LoginScreen = () => {
         <Text style={styles.linkText}>Don&apos;t have an account? Sign up</Text>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
   },
-});
+})
 
-export default LoginScreen;
+export default LoginScreen
