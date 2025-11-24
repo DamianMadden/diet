@@ -1,9 +1,10 @@
+import { GoogleSigninButton } from '@react-native-google-signin/google-signin'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Alert, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 
 import { useSession } from '../AuthContext'
-import { Button, Text } from '../components'
+import { Text } from '../components'
 
 const LoginScreen = () => {
   const router = useRouter()
@@ -13,12 +14,7 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     try {
-      if (email && password) {
-        // TODO: Add backend interaction
-        session.signIn()
-      } else {
-        Alert.alert('Error', 'Please enter both email and password')
-      }
+      session.signIn()
     } catch (error: any) {
       Alert.alert('Login Failed', error.message || 'Something went wrong')
     }
@@ -52,9 +48,9 @@ const LoginScreen = () => {
         />
       </View>
 
-      <Button onPress={handleLogin} variant="primary" size="medium">
-        Log In
-      </Button>
+      <GoogleSigninButton onPress={handleLogin}>
+        <Text>Sign in with Google</Text>
+      </GoogleSigninButton>
 
       <TouchableOpacity onPress={() => router.navigate('./signup')}>
         <Text style={styles.linkText}>Don&apos;t have an account? Sign up</Text>
