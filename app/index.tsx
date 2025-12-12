@@ -48,9 +48,7 @@ const LoginScreen = () => {
         />
       </View>
 
-      <GoogleSigninButton onPress={handleLogin}>
-        <Text>Sign in with Google</Text>
-      </GoogleSigninButton>
+      <GoogleSigninButton onPress={handleLogin} />
 
       <TouchableOpacity onPress={() => router.navigate('./signup')}>
         <Text style={styles.linkText}>Don&apos;t have an account? Sign up</Text>

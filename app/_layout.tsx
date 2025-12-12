@@ -1,5 +1,5 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import { ThemeProvider as NavThemeProvider } from '@react-navigation/native'
+import { DarkTheme, ThemeProvider } from '@react-navigation/native'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Stack } from 'expo-router'
 import { useEffect, useState } from 'react'
@@ -7,13 +7,13 @@ import { useEffect, useState } from 'react'
 import { SessionProvider, useSession } from '../AuthContext'
 import { Text } from '../components/Text'
 import { SplashScreenController } from '../splash'
-import { NAV_THEME } from '../theme'
 
 async function initializeApp() {
   console.log('App initializing...')
   GoogleSignin.configure({
-    webClientId: process.env.EXPO_PUBLIC_GOOGLEIDENTITY_ANDROID_CLIENT_ID,
+    webClientId: process.env.EXPO_PUBLIC_GOOGLEIDENTITY_WEB_CLIENT_ID,
     offlineAccess: true,
+    scopes: ['profile', 'email', 'openid'],
   })
   console.log('App initialized!')
 }
@@ -30,18 +30,18 @@ function RootNavigator() {
   }
 
   return (
-    <NavThemeProvider value={NAV_THEME['light']}>
+    <ThemeProvider value={DarkTheme}>
       <Stack>
         <Stack.Protected guard={!!session}>
-          <Stack.Screen name="(app)" />
+          <Stack.Screen name="(app)" options={{ headerShown: false }} />
         </Stack.Protected>
 
         <Stack.Protected guard={!session}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="signup" />
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="signup" options={{ headerShown: false }} />
         </Stack.Protected>
       </Stack>
-    </NavThemeProvider>
+    </ThemeProvider>
   )
 }
 
