@@ -1,17 +1,27 @@
 # Diet Planner App
 
+This is app is the front end for a diet planner, real title to be determined.
+
+In combination with the back end which is still currently private but will be made public soon it intends to generate a diet plan based on some general information about the user and as much as possible remove the associated burden of work/choice involved in getting it to your mouth.
+
 ## Get started
 
 1. Install dependencies
 
    ```bash
-   npm install
+   yarn
    ```
 
-2. Start the app
+2. Build
 
    ```bash
-   npx expo start
+   yarn build-android
+   ```
+
+3. Start the app
+
+   ```bash
+   yarn start
    ```
 
 In the output, you'll find options to open the app in a
