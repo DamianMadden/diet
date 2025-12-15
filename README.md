@@ -15,10 +15,14 @@ In combination with the back end which is still currently private but will be ma
 2. Build
 
    ```bash
-   yarn build-android
+   yarn android-build
    ```
 
-3. Start the app
+3. Install the build on simulator or phone
+
+   Drag and drop it onto the simulator
+
+4. Start the app
 
    ```bash
    yarn start
