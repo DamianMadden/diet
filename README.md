@@ -35,3 +35,7 @@ In the output, you'll find options to open the app in a
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 
 This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+
+## Contributing
+
+At this point my assumption is that nobody wants to contribute anything, feel free to let me know if that's not true, I'll be considering how to license this code later on
