@@ -2,7 +2,7 @@
 
 This is app is the front end for a diet planner, real title to be determined.
 
-In combination with the back end which is still currently private but will be made public soon it intends to generate a diet plan based on some general information about the user and as much as possible remove the associated burden of work/choice involved in getting it to your mouth.
+In combination with the back end it intends to generate a diet plan based on some general information about the user and as much as possible remove the associated burden of work/choice involved in getting the food to your mouth.
 
 ## Get started
 
