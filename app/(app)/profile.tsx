@@ -1,18 +1,56 @@
 import { Picker } from '@react-native-picker/picker'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native'
+import { Alert, ScrollView, StyleSheet, TextInput, View } from 'react-native'
 
 import { Button, Text } from '../../components'
+import { useApiClient } from '../../hooks/useApiClient'
 
 const ProfileScreen = () => {
   const router = useRouter()
+  const { post } = useApiClient()
+
   const [weight, setWeight] = useState('')
   const [height, setHeight] = useState('')
   const [gender, setGender] = useState('')
-  const [age, setAge] = useState('')
-  const [activityLevel, setActivityLevel] = useState('')
-  const [goal, setGoal] = useState('')
+  const [dateOfBirth, setDateOfBirth] = useState('')
+  const [activityLevel, setActivityLevel] = useState(-1)
+  const [goal, setGoal] = useState(-1)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async () => {
+    // Validate required fields
+    if (!weight || !height || !gender || !dateOfBirth || activityLevel == -1 || goal == -1) {
+      Alert.alert('Validation Error', 'Please fill in all fields')
+      return
+    }
+
+    setIsSubmitting(true)
+    try {
+      const profileData = {
+        weight: parseFloat(weight),
+        height: parseFloat(height),
+        gender: gender,
+        dateOfBirth: dateOfBirth,
+        goal: goal,
+        activityLevel: activityLevel,
+      }
+
+      const response = await post('profile', profileData)
+
+      if (response.ok) {
+        Alert.alert('Success', 'Profile saved successfully')
+        router.navigate('dashboard')
+      } else {
+        const errorText = await response.text()
+        Alert.alert('Error', `Failed to save profile: ${errorText}`)
+      }
+    } catch (error) {
+      Alert.alert('Error', `Failed to save profile: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -54,14 +92,8 @@ const ProfileScreen = () => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Age</Text>
-        <TextInput
-          style={styles.input}
-          value={age}
-          onChangeText={setAge}
-          keyboardType="numeric"
-          placeholder="Enter age"
-        />
+        <Text style={styles.label}>Date of Birth</Text>
+        <TextInput style={styles.input} value={dateOfBirth} onChangeText={setDateOfBirth} placeholder="YYYY-MM-DD" />
       </View>
 
       <View style={styles.inputContainer}>
@@ -69,28 +101,32 @@ const ProfileScreen = () => {
         <Picker
           selectedValue={activityLevel}
           style={styles.picker}
-          onValueChange={(itemValue: string) => setActivityLevel(itemValue)}
+          onValueChange={(itemValue: number) => setActivityLevel(itemValue)}
         >
-          <Picker.Item label="Select activity level" value="" />
-          <Picker.Item label="Sedentary" value="sedentary" />
-          <Picker.Item label="Lightly Active" value="lightly_active" />
-          <Picker.Item label="Moderately Active" value="moderately_active" />
-          <Picker.Item label="Very Active" value="very_active" />
+          <Picker.Item label="Select activity level" value={-1} />
+          <Picker.Item label="Sedentary" value={0} />
+          <Picker.Item label="Lightly Active" value={1} />
+          <Picker.Item label="Moderately Active" value={2} />
+          <Picker.Item label="Active" value={3} />
+          <Picker.Item label="Very Active" value={4} />
+          <Picker.Item label="Extremely Active" value={5} />
         </Picker>
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Goal</Text>
-        <Picker selectedValue={goal} style={styles.picker} onValueChange={(itemValue: string) => setGoal(itemValue)}>
-          <Picker.Item label="Select goal" value="" />
-          <Picker.Item label="Lose Weight" value="lose_weight" />
-          <Picker.Item label="Maintain Weight" value="maintain_weight" />
-          <Picker.Item label="Gain Weight" value="gain_weight" />
+        <Picker selectedValue={goal} style={styles.picker} onValueChange={(itemValue: number) => setGoal(itemValue)}>
+          <Picker.Item label="Select goal" value={-1} />
+          <Picker.Item label="Lose Weight Fast" value={0} />
+          <Picker.Item label="Lose Weight" value={1} />
+          <Picker.Item label="Maintain Weight" value={2} />
+          <Picker.Item label="Gain Weight" value={3} />
+          <Picker.Item label="Gain Weight Fast" value={4} />
         </Picker>
       </View>
 
-      <Button onPress={() => router.navigate('dashboard')} variant="primary" size="medium">
-        Go to Dashboard
+      <Button onPress={handleSubmit} variant="primary" size="medium" disabled={isSubmitting}>
+        {isSubmitting ? 'Saving...' : 'Save Profile'}
       </Button>
     </ScrollView>
   )
