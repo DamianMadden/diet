@@ -1,14 +1,16 @@
 import { Picker } from '@react-native-picker/picker'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { Alert, ScrollView, StyleSheet, TextInput, View } from 'react-native'
+import { Alert, RefreshControl, ScrollView, StyleSheet, TextInput, View } from 'react-native'
 
 import { Button, Text } from '../../components'
 import { useApiClient } from '../../hooks/useApiClient'
+import { useUser } from '../../UserContext'
 
 const ProfileScreen = () => {
   const router = useRouter()
   const { post } = useApiClient()
+  const { setUserData, refreshUserData } = useUser()
 
   const [weight, setWeight] = useState('')
   const [height, setHeight] = useState('')
@@ -17,6 +19,13 @@ const ProfileScreen = () => {
   const [activityLevel, setActivityLevel] = useState(-1)
   const [goal, setGoal] = useState(-1)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
+
+  const onRefresh = async () => {
+    setRefreshing(true)
+    await refreshUserData()
+    setRefreshing(false)
+  }
 
   const handleSubmit = async () => {
     // Validate required fields
@@ -39,8 +48,21 @@ const ProfileScreen = () => {
       const response = await post('profile', profileData)
 
       if (response.ok) {
+        const responseData = await response.json()
+
+        // Save user data to context
+        setUserData({
+          planId: responseData.planId,
+          weight: parseFloat(weight),
+          height: parseFloat(height),
+          gender: gender,
+          dateOfBirth: dateOfBirth,
+          goal: goal,
+          activityLevel: activityLevel,
+        })
+
         Alert.alert('Success', 'Profile saved successfully')
-        router.navigate('dashboard')
+        router.navigate('plan')
       } else {
         const errorText = await response.text()
         Alert.alert('Error', `Failed to save profile: ${errorText}`)
@@ -53,7 +75,7 @@ const ProfileScreen = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <Text style={styles.header}>Profile</Text>
 
       <View style={styles.inputContainer}>
